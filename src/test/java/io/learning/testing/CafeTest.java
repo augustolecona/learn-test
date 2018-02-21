@@ -17,9 +17,9 @@ public class CafeTest {
 
         // Then
         // Ensure that it's an espresso, it has no milk and it has enough coffee
-        Assert.assertEquals(CoffeeType.Espresso, coffee.getType());
-        Assert.assertEquals(0, coffee.getMilk());
-        Assert.assertEquals(8, coffee.getBeans());
+        Assert.assertEquals("Wrong coffee type", CoffeeType.Espresso, coffee.getType());
+        Assert.assertEquals("Wrong quantity of milk", 0, coffee.getMilk());
+        Assert.assertEquals("Wrong quantity of beans",8, coffee.getBeans());
     }
 
     @Test
@@ -47,5 +47,20 @@ public class CafeTest {
         cafe.brew(CoffeeType.Latte);
 
         // Then
+    }
+
+    @Test
+    public void canBrewLatte()
+    {
+        // Given
+        Cafe cafe = new Cafe();
+        cafe.restockBeans(7);
+        cafe.restockMilk(227);
+
+        // When
+        Coffee coffee = cafe.brew(CoffeeType.Latte);
+
+        // Then
+        Assert.assertEquals("Wrong Coffee Type", coffee.getType(), CoffeeType.Latte);
     }
 }
