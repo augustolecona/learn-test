@@ -1,5 +1,6 @@
 package io.learning.testing;
 
+import org.hamcrest.Matchers;
 import org.junit.*;
 
 public class CafeTest {
@@ -45,9 +46,9 @@ public class CafeTest {
 
         // Then
         // Ensure that it's an espresso, it has no milk and it has enough coffee
-        Assert.assertEquals("Wrong coffee type", CoffeeType.Espresso, coffee.getType());
-        Assert.assertEquals("Wrong quantity of milk", NO_MILK, coffee.getMilk());
-        Assert.assertEquals("Wrong quantity of beans",ESPRESSO_BEANS, coffee.getBeans());
+        Assert.assertThat(coffee, Matchers.hasProperty("beans", Matchers.equalTo(ESPRESSO_BEANS)));
+        Assert.assertThat(coffee, Matchers.hasProperty("type", Matchers.equalTo(CoffeeType.Espresso)));
+        Assert.assertThat(coffee, Matchers.hasProperty("milk", Matchers.equalTo(NO_MILK)));
     }
 
     @Test
@@ -60,7 +61,7 @@ public class CafeTest {
         Coffee coffee = cafe.brew(CoffeeType.Espresso);
 
         // Then
-        Assert.assertEquals(NO_BEANS, cafe.getBeansInStock());
+        Assert.assertThat(cafe.getBeansInStock(), Matchers.equalTo(NO_BEANS));
     }
 
     @Test(expected = IllegalStateException.class)
