@@ -22,7 +22,8 @@ public class CafeTest {
         Assert.assertEquals(8, coffee.getBeans());
     }
 
-    public void brewEspressoConsumesBeans()
+    @Test
+    public void brewingEspressoConsumesBeans()
     {
         // Given
         Cafe cafe = new Cafe();
@@ -33,5 +34,18 @@ public class CafeTest {
 
         // Then
         Assert.assertEquals(0, cafe.getBeansInStock());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void lattesRequiresMilk()
+    {
+        // Given
+        Cafe cafe = new Cafe();
+        cafe.restockBeans(7);
+
+        // When
+        cafe.brew(CoffeeType.Latte);
+
+        // Then
     }
 }
