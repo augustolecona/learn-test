@@ -87,7 +87,7 @@ public class CafeTest {
         Coffee coffee = cafe.brew(CoffeeType.Latte);
 
         // Then
-        Assert.assertEquals("Wrong Coffee Type", coffee.getType(), CoffeeType.Latte);
+        Assert.assertThat(coffee, Matchers.hasProperty("type", Matchers.equalTo(CoffeeType.Latte)));
     }
 
     @Test(expected = IllegalArgumentException.class)
