@@ -5,12 +5,16 @@ import org.junit.Test;
 
 public class CafeTest {
 
+    public static final int ESPRESSO_BEANS = CoffeeType.Espresso.getRequiredBeans();
+    public static final int NO_MILK = 0;
+    public static final int NO_BEANS = 0;
+
     @Test
     public void canBrewEspresso()
     {
         // Given
-        Cafe cafe = new Cafe();
-        cafe.restockBeans(8);
+        Cafe cafe = cafeWithBeans();
+
 
         // When
         final Coffee coffee = cafe.brew(CoffeeType.Espresso);
@@ -18,30 +22,28 @@ public class CafeTest {
         // Then
         // Ensure that it's an espresso, it has no milk and it has enough coffee
         Assert.assertEquals("Wrong coffee type", CoffeeType.Espresso, coffee.getType());
-        Assert.assertEquals("Wrong quantity of milk", 0, coffee.getMilk());
-        Assert.assertEquals("Wrong quantity of beans",8, coffee.getBeans());
+        Assert.assertEquals("Wrong quantity of milk", NO_MILK, coffee.getMilk());
+        Assert.assertEquals("Wrong quantity of beans",ESPRESSO_BEANS, coffee.getBeans());
     }
 
     @Test
     public void brewingEspressoConsumesBeans()
     {
         // Given
-        Cafe cafe = new Cafe();
-        cafe.restockBeans(8);
+        Cafe cafe = cafeWithBeans();
 
         // When
         Coffee coffee = cafe.brew(CoffeeType.Espresso);
 
         // Then
-        Assert.assertEquals(0, cafe.getBeansInStock());
+        Assert.assertEquals(NO_BEANS, cafe.getBeansInStock());
     }
 
     @Test(expected = IllegalStateException.class)
     public void lattesRequiresMilk()
     {
         // Given
-        Cafe cafe = new Cafe();
-        cafe.restockBeans(7);
+        Cafe cafe = cafeWithBeans();
 
         // When
         cafe.brew(CoffeeType.Latte);
@@ -53,14 +55,36 @@ public class CafeTest {
     public void canBrewLatte()
     {
         // Given
-        Cafe cafe = new Cafe();
-        cafe.restockBeans(7);
-        cafe.restockMilk(227);
+        Cafe cafe = cafeWithBeans();
+        cafe.restockMilk(CoffeeType.Latte.getRequiredMilk());
 
         // When
         Coffee coffee = cafe.brew(CoffeeType.Latte);
 
         // Then
         Assert.assertEquals("Wrong Coffee Type", coffee.getType(), CoffeeType.Latte);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void mustRestockBeans()
+    {
+        Cafe cafe = new Cafe();
+
+        cafe.restockMilk(NO_BEANS);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void mustRestockMilk()
+    {
+        Cafe cafe = new Cafe();
+
+        cafe.restockMilk(NO_MILK);
+    }
+
+    public Cafe cafeWithBeans()
+    {
+        Cafe c = new Cafe();
+        c.restockBeans(ESPRESSO_BEANS);
+        return c;
     }
 }
