@@ -1,7 +1,6 @@
 package io.learning.testing;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 public class CafeTest {
 
@@ -9,12 +8,37 @@ public class CafeTest {
     public static final int NO_MILK = 0;
     public static final int NO_BEANS = 0;
 
+    private Cafe cafe;
+
+    @BeforeClass
+    public static void beforeClass()
+    {
+        System.out.println("Before Class");
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        System.out.println("After Class");
+    }
+
+    @Before
+    public void before()
+    {
+        cafe = new Cafe();
+    }
+
+    @After
+    public void after()
+    {
+        System.out.println("After");
+    }
+
     @Test
     public void canBrewEspresso()
     {
         // Given
-        Cafe cafe = cafeWithBeans();
-
+        withBeans();
 
         // When
         final Coffee coffee = cafe.brew(CoffeeType.Espresso);
@@ -30,7 +54,7 @@ public class CafeTest {
     public void brewingEspressoConsumesBeans()
     {
         // Given
-        Cafe cafe = cafeWithBeans();
+        withBeans();
 
         // When
         Coffee coffee = cafe.brew(CoffeeType.Espresso);
@@ -43,7 +67,7 @@ public class CafeTest {
     public void lattesRequiresMilk()
     {
         // Given
-        Cafe cafe = cafeWithBeans();
+        withBeans();
 
         // When
         cafe.brew(CoffeeType.Latte);
@@ -55,7 +79,7 @@ public class CafeTest {
     public void canBrewLatte()
     {
         // Given
-        Cafe cafe = cafeWithBeans();
+        withBeans();
         cafe.restockMilk(CoffeeType.Latte.getRequiredMilk());
 
         // When
@@ -81,10 +105,8 @@ public class CafeTest {
         cafe.restockMilk(NO_MILK);
     }
 
-    public Cafe cafeWithBeans()
+    public void withBeans()
     {
-        Cafe c = new Cafe();
-        c.restockBeans(ESPRESSO_BEANS);
-        return c;
+        cafe.restockBeans(ESPRESSO_BEANS);
     }
 }
