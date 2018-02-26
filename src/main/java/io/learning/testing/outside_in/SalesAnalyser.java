@@ -1,7 +1,5 @@
 package io.learning.testing.outside_in;
 
-import io.learning.testing.before_refactor.Sale;
-
 import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
