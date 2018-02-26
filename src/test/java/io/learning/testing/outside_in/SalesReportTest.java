@@ -1,6 +1,5 @@
 package io.learning.testing.outside_in;
 
-import io.learning.testing.before_refactor.Sale;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -27,10 +26,10 @@ public class SalesReportTest {
     private SalesAnalyser mockAnalyser = mock(SalesAnalyser.class);
     private SalesReport report = new SalesReport(mockAnalyser, mockOut);
     private static final List<Sale> exampleSales = Arrays.asList(
-            new Sale("Apples", "Cardiff", 10, 2),
-            new Sale("Oranges", "Cardiff", 3, 5),
-            new Sale("Bananas", "Cardiff", 6, 20),
-            new Sale("Oranges", "London", 5, 7)
+            new Sale("Cardiff", 10, 2),
+            new Sale("Cardiff", 3, 5),
+            new Sale("Cardiff", 6, 20),
+            new Sale("London", 5, 7)
     );
 
     private static final Map<String, Integer> expectedStoreSales = new HashMap<>();
