@@ -1,6 +1,11 @@
 package io.learning.testing.outside_in;
 
+import io.learning.testing.before_refactor.Sale;
+
 import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingInt;
 
 public class SalesAnalyser {
 
@@ -11,6 +16,8 @@ public class SalesAnalyser {
     }
 
     public Map<String, Integer> tallyCitySales(){
-        return null;
+        return salesRepository.loadSales()
+                              .stream()
+                              .collect(groupingBy(Sale::getStore, summingInt(Sale::getValue)));
     }
 }
